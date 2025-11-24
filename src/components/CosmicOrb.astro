@@ -1,12 +1,16 @@
 ---
 ---
 
-<div class="orb-container">
-  <div class="orb-ring"></div>
+<div class="orb-positioner">
+  <div class="orb-scaler">
+    <div class="orb-shaker">
+      <div class="orb-ring"></div>
+    </div>
+  </div>
 </div>
 
 <style>
-  .orb-container {
+  .orb-positioner {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -15,8 +19,18 @@
     pointer-events: none;
     width: 600px;
     height: 600px;
+  }
+
+  .orb-scaler {
+    width: 100%;
+    height: 100%;
+    transition: filter 0.1s linear; /* Smooth blur */
+  }
+
+  .orb-shaker {
+    width: 100%;
+    height: 100%;
     animation: boil 0.2s infinite steps(2);
-    opacity: 0.6;
   }
 
   .orb-ring {
@@ -47,7 +61,7 @@
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: inherit;
     animation: inherit;
-    animation-duration: 12s; /* Different speed for variety */
+    animation-duration: 12s;
   }
 
   .orb-ring::before {
@@ -60,47 +74,23 @@
   }
 
   @keyframes morph {
-    0% {
-      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    }
-    25% {
-      border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-    }
-    50% {
-      border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%;
-    }
-    75% {
-      border-radius: 60% 40% 70% 30% / 30% 60% 40% 70%;
-    }
-    100% {
-      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    }
+    0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+    50% { border-radius: 40% 60% 30% 70% / 60% 30% 70% 40%; }
+    75% { border-radius: 60% 40% 70% 30% / 30% 60% 40% 70%; }
+    100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
   }
 
   @keyframes rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
   @keyframes boil {
-    0% {
-      transform: translate(-50%, -50%) translate(1px, 1px) skewX(0.5deg);
-    }
-    25% {
-      transform: translate(-50%, -50%) translate(-1px, -1px) skewX(-0.5deg);
-    }
-    50% {
-      transform: translate(-50%, -50%) translate(-1px, 1px) skewY(0.5deg);
-    }
-    75% {
-      transform: translate(-50%, -50%) translate(1px, -1px) skewY(-0.5deg);
-    }
-    100% {
-      transform: translate(-50%, -50%) translate(1px, 1px) skewX(0.5deg);
-    }
+    0% { transform: translate(1px, 1px) skewX(0.5deg); }
+    25% { transform: translate(-1px, -1px) skewX(-0.5deg); }
+    50% { transform: translate(-1px, 1px) skewY(0.5deg); }
+    75% { transform: translate(1px, -1px) skewY(-0.5deg); }
+    100% { transform: translate(1px, 1px) skewX(0.5deg); }
   }
 </style>

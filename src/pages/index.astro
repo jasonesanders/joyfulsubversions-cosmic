@@ -5,10 +5,99 @@ import CosmicOrb from '../components/CosmicOrb.astro';
 
 <Layout title="Joyful Subversions Cosmic">
 	<CosmicOrb />
-	<main class="flex min-h-screen flex-col items-center justify-center p-8 relative z-10">
-		<h1 class="font-fraunces text-6xl font-bold mb-4">Joyful Subversions</h1>
+	
+	<!-- Hero Section -->
+	<section id="hero" class="min-h-screen flex flex-col items-center justify-center p-12 relative z-10">
+		<h1 class="font-fraunces text-7xl md:text-9xl font-bold mb-6 text-center tracking-tight">
+			Joyful<br />Subversions
+		</h1>
 		<p class="font-manrope text-xl opacity-80 max-w-2xl text-center">
 			A cosmic exploration of minimalist design and smooth motion.
 		</p>
-	</main>
+	</section>
+
+	<!-- Manifesto Section -->
+	<section id="manifesto" class="min-h-screen flex items-center justify-center p-12 relative z-10 bg-void-black">
+		<h2 class="font-fraunces text-6xl md:text-8xl font-bold text-center leading-tight">
+			Explorers,<br />not settlers.
+		</h2>
+	</section>
+
+	<!-- About Section (Light Mode) -->
+	<section id="about" class="min-h-screen flex items-center justify-center p-12 relative z-10 bg-mint-cream text-void-black">
+		<div class="max-w-4xl">
+			<h2 class="font-fraunces text-5xl md:text-7xl font-bold mb-8">The Shift</h2>
+			<p class="font-manrope text-2xl md:text-3xl leading-relaxed font-medium">
+				We believe in the power of contrast. Light and dark. Sound and silence. 
+				Digital spaces should feel alive, breathing with the user's intent.
+			</p>
+		</div>
+	</section>
+
+	<!-- Gallery Section -->
+	<section id="gallery" class="min-h-screen flex flex-col justify-center p-12 relative z-10 bg-void-black overflow-hidden">
+		<h2 class="font-fraunces text-4xl mb-12 opacity-50">Selected Work</h2>
+		<div class="flex gap-8 overflow-x-auto pb-8">
+			<!-- Placeholder Cards -->
+			{[1, 2, 3, 4].map((i) => (
+				<div class="flex-shrink-0 w-[400px] h-[500px] border border-white/20 rounded-2xl p-8 flex items-end hover:bg-white/5 transition-colors duration-500">
+					<span class="font-fraunces text-4xl">Project 0{i}</span>
+				</div>
+			))}
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<section id="footer" class="min-h-screen flex flex-col items-center justify-center p-12 relative z-10 bg-electric-blue">
+		<h2 class="font-fraunces text-[12vw] font-bold leading-none text-center">
+			COSMIC
+		</h2>
+		<div class="mt-12 flex gap-8 font-manrope text-xl">
+			<a href="#" class="hover:underline">Instagram</a>
+			<a href="#" class="hover:underline">Twitter</a>
+			<a href="#" class="hover:underline">Email</a>
+		</div>
+	</section>
+
+	<script>
+		import { gsap } from 'gsap';
+		import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+		gsap.registerPlugin(ScrollTrigger);
+
+		const tl = gsap.timeline({
+			scrollTrigger: {
+				trigger: "body",
+				start: "top top",
+				end: "bottom bottom",
+				scrub: 1,
+			}
+		});
+
+		// Hero -> Manifesto: Scale up and Blur
+		tl.to('.orb-scaler', {
+			scale: 3,
+			filter: 'blur(40px)',
+			duration: 1,
+			ease: "power1.inOut"
+		}, 0); // Start at beginning
+
+		// Manifesto -> About: Fade out
+		tl.to('.orb-scaler', {
+			opacity: 0,
+			duration: 0.5,
+			ease: "power1.inOut"
+		}, 0.8); // Overlap slightly or start after
+
+		// About -> Gallery: Stay hidden (no op needed, or hold)
+		
+		// Gallery -> Footer: Reappear
+		tl.to('.orb-scaler', {
+			opacity: 1,
+			scale: 1,
+			filter: 'blur(0px)',
+			duration: 0.5,
+			ease: "power1.inOut"
+		}, 2.5); // Adjust timing based on scroll distance approximation
+	</script>
 </Layout>
