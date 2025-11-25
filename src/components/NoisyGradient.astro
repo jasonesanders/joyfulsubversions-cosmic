@@ -7,17 +7,12 @@
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
   </div>
-  <svg viewBox="0 0 200 200" xmlns='http://www.w3.org/2000/svg'>
-    <filter id='heavyNoise'>
-      <feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch' />
-      <feColorMatrix type="saturate" values="0" />
-      <feComponentTransfer>
-        <feFuncR type="linear" slope="3" intercept="-1" />
-        <feFuncG type="linear" slope="3" intercept="-1" />
-        <feFuncB type="linear" slope="3" intercept="-1" />
-      </feComponentTransfer>
+  <svg width="100%" height="100%" xmlns='http://www.w3.org/2000/svg'>
+    <filter id='grainyGradientNoise'>
+      <feTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch' />
+      <feColorMatrix type="saturate" values="0" /> <!-- Grayscale -->
     </filter>
-    <rect width='100%' height='100%' filter='url(#heavyNoise)' opacity="0.4" />
+    <rect width='100%' height='100%' filter='url(#grainyGradientNoise)' opacity="1" />
   </svg>
 </div>
 
@@ -38,44 +33,46 @@
   .gradient-blobs {
     position: absolute;
     inset: 0;
-    filter: blur(80px); /* Soften the blobs */
+    /* Reduced blur for more defined shapes as requested */
+    filter: blur(40px) contrast(120%); 
   }
 
   .blob {
     position: absolute;
     border-radius: 50%;
-    opacity: 0.8;
+    opacity: 0; /* Start hidden for solid top */
     transition: background-color 0.5s ease;
+    mix-blend-mode: screen; /* Helps colors pop against dark bg */
   }
 
-  /* Top Left Blob */
+  /* Top Left Blob - Starts off-screen or very low opacity */
   .blob-1 {
-    top: -20%;
-    left: -20%;
-    width: 80vw;
-    height: 80vw;
+    top: 10%;
+    left: -10%;
+    width: 60vw;
+    height: 60vw;
     background-color: var(--blob-1-color, #643173);
-    animation: float 20s infinite alternate ease-in-out;
+    transform: translate(-50%, -50%);
   }
 
   /* Center Right Blob */
   .blob-2 {
-    top: 30%;
-    right: -10%;
-    width: 60vw;
-    height: 60vw;
+    top: 40%;
+    right: -20%;
+    width: 50vw;
+    height: 50vw;
     background-color: var(--blob-2-color, #7d5ba6);
-    animation: float 25s infinite alternate-reverse ease-in-out;
+    transform: translate(50%, -50%);
   }
 
   /* Bottom Left Blob */
   .blob-3 {
-    bottom: -10%;
-    left: 10%;
+    bottom: -20%;
+    left: 20%;
     width: 70vw;
     height: 70vw;
     background-color: var(--blob-3-color, #86a59c);
-    animation: float 22s infinite alternate ease-in-out;
+    transform: translate(-50%, 50%);
   }
 
   svg {
@@ -84,14 +81,12 @@
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.3; /* Adjust for visibility */
+    /* CSS-Tricks Grainy Gradient Technique: 
+       Overlay blend mode + Contrast on the noise layer itself */
     mix-blend-mode: overlay;
+    filter: contrast(150%) brightness(100%);
+    opacity: 0.5;
     pointer-events: none;
-  }
-
-  @keyframes float {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(5%, 5%) scale(1.1); }
   }
 </style>
 
@@ -101,19 +96,17 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // Define the color palette sequence
-  // We will interpolate the base background and the blob colors
+  // Palette: #333333 -> #643173 -> #7d5ba6 -> #86a59c -> #89ce94
   const palette = [
-    { base: '#333333', blob1: '#4a2c55', blob2: '#2a2a2a', blob3: '#3a3a3a' }, // Start (Dark)
-    { base: '#4a2555', blob1: '#643173', blob2: '#7d5ba6', blob3: '#5a3a6a' }, // Manifesto (Purple)
-    { base: '#5a3a6a', blob1: '#7d5ba6', blob2: '#86a59c', blob3: '#643173' }, // About (Purple/Teal)
-    { base: '#6a8a80', blob1: '#86a59c', blob2: '#89ce94', blob3: '#7d5ba6' }, // Gallery (Teal/Green)
-    { base: '#7ab585', blob1: '#89ce94', blob2: '#a8e6b3', blob3: '#86a59c' }  // Footer (Green)
+    { base: '#333333', blob1: '#643173', blob2: '#7d5ba6', blob3: '#86a59c' }, // Start
+    { base: '#3a1c42', blob1: '#7d5ba6', blob2: '#86a59c', blob3: '#89ce94' }, // Middle
+    { base: '#4d7353', blob1: '#89ce94', blob2: '#643173', blob3: '#7d5ba6' }  // End
   ];
 
   const container = document.querySelector('.noisy-gradient-container') as HTMLElement;
+  const blobs = document.querySelectorAll('.blob');
 
-  if (container) {
+  if (container && blobs.length) {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: "body",
@@ -123,15 +116,27 @@
       }
     });
 
-    // Initial state
-    gsap.set(container, {
-        '--bg-base': palette[0].base,
-        '--blob-1-color': palette[0].blob1,
-        '--blob-2-color': palette[0].blob2,
-        '--blob-3-color': palette[0].blob3
-    });
+    // Initial State: Solid Top (Blobs hidden or very subtle)
+    gsap.set(container, { '--bg-base': palette[0].base });
+    gsap.set(blobs, { opacity: 0, scale: 0.8 }); 
 
-    // Animate through the palette
+    // Animation Sequence
+    
+    // 1. Fade in blobs as we scroll down from Hero
+    tl.to(blobs, { 
+        opacity: 0.8, 
+        scale: 1, 
+        duration: 0.2, 
+        stagger: 0.1 
+    }, 0);
+
+    // 2. Move blobs around to create "transition"
+    tl.to('.blob-1', { top: '30%', left: '10%', rotation: 45, duration: 1 }, 0);
+    tl.to('.blob-2', { top: '60%', right: '10%', rotation: -45, duration: 1 }, 0);
+    tl.to('.blob-3', { bottom: '10%', left: '30%', rotation: 20, duration: 1 }, 0);
+
+    // 3. Color Cycle
+    // We'll interpolate the CSS variables for colors
     palette.forEach((colors, index) => {
         if (index === 0) return;
         
