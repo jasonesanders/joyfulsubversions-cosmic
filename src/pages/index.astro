@@ -8,17 +8,17 @@ import CosmicOrb from '../components/CosmicOrb.astro';
 	
 	<!-- Hero Section -->
 	<section id="hero" class="min-h-screen flex flex-col items-center justify-center p-12 relative z-10">
-		<h1 class="font-fraunces text-7xl md:text-9xl font-bold mb-6 text-center tracking-tight">
+		<h1 class="font-spectral text-7xl md:text-9xl font-bold mb-6 text-center tracking-tight">
 			Joyful<br />Subversions
 		</h1>
-		<p class="font-manrope text-xl opacity-80 max-w-2xl text-center">
+		<p class="font-jetbrains text-xl opacity-80 max-w-2xl text-center">
 			A cosmic exploration of minimalist design and smooth motion.
 		</p>
 	</section>
 
 	<!-- Manifesto Section -->
 	<section id="manifesto" class="min-h-screen flex items-center justify-center p-12 relative z-10">
-		<h2 class="font-fraunces text-6xl md:text-8xl font-bold text-center leading-tight">
+		<h2 class="font-spectral text-6xl md:text-8xl font-bold text-center leading-tight">
 			Explorers,<br />not settlers.
 		</h2>
 	</section>
@@ -26,8 +26,8 @@ import CosmicOrb from '../components/CosmicOrb.astro';
 	<!-- About Section (Light Mode) -->
 	<section id="about" class="min-h-screen flex items-center justify-center p-12 relative z-10 bg-mint-cream text-void-black">
 		<div class="max-w-4xl">
-			<h2 class="font-fraunces text-5xl md:text-7xl font-bold mb-8">The Shift</h2>
-			<p class="font-manrope text-2xl md:text-3xl leading-relaxed font-medium">
+			<h2 class="font-spectral text-5xl md:text-7xl font-bold mb-8">The Shift</h2>
+			<p class="font-jetbrains text-2xl md:text-3xl leading-relaxed font-medium">
 				We believe in the power of contrast. Light and dark. Sound and silence. 
 				Digital spaces should feel alive, breathing with the user's intent.
 			</p>
@@ -36,12 +36,12 @@ import CosmicOrb from '../components/CosmicOrb.astro';
 
 	<!-- Gallery Section -->
 	<section id="gallery" class="min-h-screen flex flex-col justify-center p-12 relative z-10 overflow-hidden">
-		<h2 class="font-fraunces text-4xl mb-12 opacity-50">Selected Work</h2>
+		<h2 class="font-spectral text-4xl mb-12 opacity-50">Selected Work</h2>
 		<div class="flex gap-8 overflow-x-auto pb-8">
 			<!-- Placeholder Cards -->
 			{[1, 2, 3, 4].map((i) => (
 				<div class="flex-shrink-0 w-[400px] h-[500px] border border-white/20 rounded-2xl p-8 flex items-end hover:bg-white/5 transition-colors duration-500">
-					<span class="font-fraunces text-4xl">Project 0{i}</span>
+					<span class="font-spectral text-4xl">Project 0{i}</span>
 				</div>
 			))}
 		</div>
@@ -49,10 +49,10 @@ import CosmicOrb from '../components/CosmicOrb.astro';
 
 	<!-- Footer -->
 	<section id="footer" class="min-h-screen flex flex-col items-center justify-center p-12 relative z-10 bg-electric-blue">
-		<h2 class="font-fraunces text-[12vw] font-bold leading-none text-center">
+		<h2 class="font-spectral text-[12vw] font-bold leading-none text-center">
 			COSMIC
 		</h2>
-		<div class="mt-12 flex gap-8 font-manrope text-xl">
+		<div class="mt-12 flex gap-8 font-jetbrains text-xl">
 			<a href="#" class="hover:underline">Instagram</a>
 			<a href="#" class="hover:underline">Twitter</a>
 			<a href="#" class="hover:underline">Email</a>
@@ -91,13 +91,13 @@ import CosmicOrb from '../components/CosmicOrb.astro';
 
 		// About -> Gallery: Stay hidden (no op needed, or hold)
 		
-		// Gallery -> Footer: Reappear
-		tl.to('.orb-scaler', {
-			opacity: 1,
-			scale: 1,
-			filter: 'blur(0px)',
-			duration: 0.5,
-			ease: "power1.inOut"
-		}, 2.5); // Adjust timing based on scroll distance approximation
+		// Gallery -> Footer: Reappear - REMOVED based on feedback
+		// tl.to('.orb-scaler', {
+		// 	opacity: 1,
+		// 	scale: 1,
+		// 	filter: 'blur(0px)',
+		// 	duration: 0.5,
+		// 	ease: "power1.inOut"
+		// }, 2.5);
 	</script>
 </Layout>

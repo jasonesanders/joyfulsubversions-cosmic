@@ -5,8 +5,8 @@
     --color-off-white: #F0F0F0;
     --color-mint-cream: #D4F5D1;
     --color-electric-blue: #0000AA;
-    --font-fraunces: 'Fraunces', serif;
-    --font-manrope: 'Manrope', sans-serif;
+    --font-spectral: 'Spectral', serif;
+    --font-jetbrains: 'JetBrains Mono', monospace;
 }
 
 @layer base {
@@ -15,6 +15,6 @@
     }
 
     body {
-        @apply font-manrope antialiased;
+        @apply font-jetbrains antialiased;
     }
 }

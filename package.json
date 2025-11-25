@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@fontsource/fraunces": "^5.2.9",
+    "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/manrope": "^5.2.8",
     "@fontsource/raleway": "^5.2.8",
+    "@fontsource/spectral": "^5.2.8",
     "@studio-freight/lenis": "^1.0.42",
     "@tailwindcss/vite": "^4.1.17",
     "astro": "^5.16.0",
