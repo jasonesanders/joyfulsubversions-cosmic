@@ -2,16 +2,22 @@
 ---
 
 <div class="noisy-gradient-container">
-  <div class="gradient-bg"></div>
+  <div class="gradient-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
   <svg viewBox="0 0 200 200" xmlns='http://www.w3.org/2000/svg'>
-    <filter id='noiseFilter'>
-      <feTurbulence 
-        type='fractalNoise' 
-        baseFrequency='0.65' 
-        numOctaves='3' 
-        stitchTiles='stitch' />
+    <filter id='heavyNoise'>
+      <feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch' />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="3" intercept="-1" />
+        <feFuncG type="linear" slope="3" intercept="-1" />
+        <feFuncB type="linear" slope="3" intercept="-1" />
+      </feComponentTransfer>
     </filter>
-    <rect width='100%' height='100%' filter='url(#noiseFilter)' />
+    <rect width='100%' height='100%' filter='url(#heavyNoise)' opacity="0.4" />
   </svg>
 </div>
 
@@ -22,17 +28,54 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -2; /* Behind everything, including the Orb (z-index: 0) */
+    z-index: -2;
     pointer-events: none;
     overflow: hidden;
-    background-color: #333333; /* Fallback/Start color */
+    background-color: var(--bg-base, #333333);
+    transition: background-color 0.5s ease;
   }
 
-  .gradient-bg {
+  .gradient-blobs {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 50%, var(--bg-primary, #333333), var(--bg-secondary, #1a1a1a));
-    transition: background 0.5s ease; /* Smooth transition if JS fails */
+    filter: blur(80px); /* Soften the blobs */
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.8;
+    transition: background-color 0.5s ease;
+  }
+
+  /* Top Left Blob */
+  .blob-1 {
+    top: -20%;
+    left: -20%;
+    width: 80vw;
+    height: 80vw;
+    background-color: var(--blob-1-color, #643173);
+    animation: float 20s infinite alternate ease-in-out;
+  }
+
+  /* Center Right Blob */
+  .blob-2 {
+    top: 30%;
+    right: -10%;
+    width: 60vw;
+    height: 60vw;
+    background-color: var(--blob-2-color, #7d5ba6);
+    animation: float 25s infinite alternate-reverse ease-in-out;
+  }
+
+  /* Bottom Left Blob */
+  .blob-3 {
+    bottom: -10%;
+    left: 10%;
+    width: 70vw;
+    height: 70vw;
+    background-color: var(--blob-3-color, #86a59c);
+    animation: float 22s infinite alternate ease-in-out;
   }
 
   svg {
@@ -41,9 +84,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.15;
+    opacity: 0.3; /* Adjust for visibility */
     mix-blend-mode: overlay;
     pointer-events: none;
+  }
+
+  @keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(5%, 5%) scale(1.1); }
   }
 </style>
 
@@ -54,53 +102,47 @@
   gsap.registerPlugin(ScrollTrigger);
 
   // Define the color palette sequence
-  // Start: #333333
-  // Transition: #643173 -> #7d5ba6 -> #86a59c -> #89ce94
-  const colors = [
-    { primary: '#333333', secondary: '#1a1a1a' }, // Hero
-    { primary: '#643173', secondary: '#3a1c42' }, // Manifesto
-    { primary: '#7d5ba6', secondary: '#4a3661' }, // About
-    { primary: '#86a59c', secondary: '#4f615c' }, // Gallery
-    { primary: '#89ce94', secondary: '#4d7353' }  // Footer
+  // We will interpolate the base background and the blob colors
+  const palette = [
+    { base: '#333333', blob1: '#4a2c55', blob2: '#2a2a2a', blob3: '#3a3a3a' }, // Start (Dark)
+    { base: '#4a2555', blob1: '#643173', blob2: '#7d5ba6', blob3: '#5a3a6a' }, // Manifesto (Purple)
+    { base: '#5a3a6a', blob1: '#7d5ba6', blob2: '#86a59c', blob3: '#643173' }, // About (Purple/Teal)
+    { base: '#6a8a80', blob1: '#86a59c', blob2: '#89ce94', blob3: '#7d5ba6' }, // Gallery (Teal/Green)
+    { base: '#7ab585', blob1: '#89ce94', blob2: '#a8e6b3', blob3: '#86a59c' }  // Footer (Green)
   ];
 
-  const sections = document.querySelectorAll('section');
-  const gradientBg = document.querySelector('.gradient-bg') as HTMLElement;
+  const container = document.querySelector('.noisy-gradient-container') as HTMLElement;
 
-  if (gradientBg) {
-    // Create a timeline that scrubs through the colors based on total scroll
+  if (container) {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: "body",
         start: "top top",
         end: "bottom bottom",
-        scrub: 0.5, // Slight smoothing
+        scrub: 0.5,
       }
     });
 
-    // Interpolate colors across the entire scroll distance
-    // We use CSS variables to allow the radial gradient to update
-    // Note: animating CSS variables with GSAP works well
-    
     // Initial state
-    gsap.set(gradientBg, {
-        '--bg-primary': colors[0].primary,
-        '--bg-secondary': colors[0].secondary
+    gsap.set(container, {
+        '--bg-base': palette[0].base,
+        '--blob-1-color': palette[0].blob1,
+        '--blob-2-color': palette[0].blob2,
+        '--blob-3-color': palette[0].blob3
     });
 
-    // Animate through the colors
-    colors.forEach((color, index) => {
-        if (index === 0) return; // Skip start color
+    // Animate through the palette
+    palette.forEach((colors, index) => {
+        if (index === 0) return;
         
-        // Calculate relative position in timeline
-        const position = index / (colors.length - 1);
-        
-        tl.to(gradientBg, {
-            '--bg-primary': color.primary,
-            '--bg-secondary': color.secondary,
-            ease: "none", // Linear interpolation for scrub
-            duration: 1 / (colors.length - 1) // Equal duration for each segment
-        }, (index - 1) / (colors.length - 1)); // Start time
+        tl.to(container, {
+            '--bg-base': colors.base,
+            '--blob-1-color': colors.blob1,
+            '--blob-2-color': colors.blob2,
+            '--blob-3-color': colors.blob3,
+            ease: "none",
+            duration: 1 / (palette.length - 1)
+        }, (index - 1) / (palette.length - 1));
     });
   }
 </script>
