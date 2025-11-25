@@ -1,100 +1,106 @@
 ---
-interface Props {
-  primaryColor?: string;
-  secondaryColor?: string;
-  accentColor?: string;
-}
-
-const { 
-  primaryColor = '#643173', 
-  secondaryColor = '#7d5ba6', 
-  accentColor = '#86a59c' 
-} = Astro.props;
 ---
 
 <div class="noisy-gradient-container">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="noise-overlay"></div>
-  
-  <svg class="noise-def">
-    <filter id="noise">
-      <feTurbulence type="fractalNoise" baseFrequency="0.6" stitchTiles="stitch" />
+  <div class="gradient-bg"></div>
+  <svg viewBox="0 0 200 200" xmlns='http://www.w3.org/2000/svg'>
+    <filter id='noiseFilter'>
+      <feTurbulence 
+        type='fractalNoise' 
+        baseFrequency='0.65' 
+        numOctaves='3' 
+        stitchTiles='stitch' />
     </filter>
+    <rect width='100%' height='100%' filter='url(#noiseFilter)' />
   </svg>
 </div>
 
-<style define:vars={{ primaryColor, secondaryColor, accentColor }}>
+<style>
   .noisy-gradient-container {
     position: fixed;
-    inset: 0;
-    z-index: -1;
-    overflow: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2; /* Behind everything, including the Orb (z-index: 0) */
     pointer-events: none;
-    background-color: #333A3F;
+    overflow: hidden;
+    background-color: #333333; /* Fallback/Start color */
   }
 
-  .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.7;
-    mix-blend-mode: soft-light;
-    animation: blob-bounce 20s infinite ease-in-out alternate;
-  }
-
-  .blob-1 {
-    top: -10%;
-    left: -10%;
-    width: 50vw;
-    height: 50vw;
-    background-color: var(--primaryColor);
-    animation-delay: 0s;
-  }
-
-  .blob-2 {
-    bottom: -10%;
-    right: -10%;
-    width: 60vw;
-    height: 60vw;
-    background-color: var(--secondaryColor);
-    animation-delay: -5s;
-  }
-
-  .blob-3 {
-    top: 40%;
-    left: 40%;
-    width: 40vw;
-    height: 40vw;
-    background-color: var(--accentColor);
-    animation-delay: -10s;
-  }
-
-  .noise-overlay {
+  .gradient-bg {
     position: absolute;
     inset: 0;
-    opacity: 0.2;
-    filter: url(#noise);
+    background: radial-gradient(circle at 50% 50%, var(--bg-primary, #333333), var(--bg-secondary, #1a1a1a));
+    transition: background 0.5s ease; /* Smooth transition if JS fails */
+  }
+
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
     mix-blend-mode: overlay;
-  }
-
-  .noise-def {
-    display: none;
-  }
-
-  @keyframes blob-bounce {
-    0% {
-      transform: translate(0, 0) scale(1);
-    }
-    33% {
-      transform: translate(30px, -50px) scale(1.1);
-    }
-    66% {
-      transform: translate(-20px, 20px) scale(0.9);
-    }
-    100% {
-      transform: translate(0, 0) scale(1);
-    }
+    pointer-events: none;
   }
 </style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Define the color palette sequence
+  // Start: #333333
+  // Transition: #643173 -> #7d5ba6 -> #86a59c -> #89ce94
+  const colors = [
+    { primary: '#333333', secondary: '#1a1a1a' }, // Hero
+    { primary: '#643173', secondary: '#3a1c42' }, // Manifesto
+    { primary: '#7d5ba6', secondary: '#4a3661' }, // About
+    { primary: '#86a59c', secondary: '#4f615c' }, // Gallery
+    { primary: '#89ce94', secondary: '#4d7353' }  // Footer
+  ];
+
+  const sections = document.querySelectorAll('section');
+  const gradientBg = document.querySelector('.gradient-bg') as HTMLElement;
+
+  if (gradientBg) {
+    // Create a timeline that scrubs through the colors based on total scroll
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "body",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.5, // Slight smoothing
+      }
+    });
+
+    // Interpolate colors across the entire scroll distance
+    // We use CSS variables to allow the radial gradient to update
+    // Note: animating CSS variables with GSAP works well
+    
+    // Initial state
+    gsap.set(gradientBg, {
+        '--bg-primary': colors[0].primary,
+        '--bg-secondary': colors[0].secondary
+    });
+
+    // Animate through the colors
+    colors.forEach((color, index) => {
+        if (index === 0) return; // Skip start color
+        
+        // Calculate relative position in timeline
+        const position = index / (colors.length - 1);
+        
+        tl.to(gradientBg, {
+            '--bg-primary': color.primary,
+            '--bg-secondary': color.secondary,
+            ease: "none", // Linear interpolation for scrub
+            duration: 1 / (colors.length - 1) // Equal duration for each segment
+        }, (index - 1) / (colors.length - 1)); // Start time
+    });
+  }
+</script>
