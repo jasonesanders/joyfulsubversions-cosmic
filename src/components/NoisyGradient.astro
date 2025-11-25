@@ -1,0 +1,100 @@
+---
+interface Props {
+  primaryColor?: string;
+  secondaryColor?: string;
+  accentColor?: string;
+}
+
+const { 
+  primaryColor = '#643173', 
+  secondaryColor = '#7d5ba6', 
+  accentColor = '#86a59c' 
+} = Astro.props;
+---
+
+<div class="noisy-gradient-container">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="noise-overlay"></div>
+  
+  <svg class="noise-def">
+    <filter id="noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.6" stitchTiles="stitch" />
+    </filter>
+  </svg>
+</div>
+
+<style define:vars={{ primaryColor, secondaryColor, accentColor }}>
+  .noisy-gradient-container {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background-color: #333A3F;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.7;
+    mix-blend-mode: soft-light;
+    animation: blob-bounce 20s infinite ease-in-out alternate;
+  }
+
+  .blob-1 {
+    top: -10%;
+    left: -10%;
+    width: 50vw;
+    height: 50vw;
+    background-color: var(--primaryColor);
+    animation-delay: 0s;
+  }
+
+  .blob-2 {
+    bottom: -10%;
+    right: -10%;
+    width: 60vw;
+    height: 60vw;
+    background-color: var(--secondaryColor);
+    animation-delay: -5s;
+  }
+
+  .blob-3 {
+    top: 40%;
+    left: 40%;
+    width: 40vw;
+    height: 40vw;
+    background-color: var(--accentColor);
+    animation-delay: -10s;
+  }
+
+  .noise-overlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0.2;
+    filter: url(#noise);
+    mix-blend-mode: overlay;
+  }
+
+  .noise-def {
+    display: none;
+  }
+
+  @keyframes blob-bounce {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+  }
+</style>
