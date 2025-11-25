@@ -2,6 +2,7 @@
 import '@fontsource/spectral';
 import '@fontsource/jetbrains-mono';
 import '../styles/global.css';
+import NoiseOverlay from '../components/NoiseOverlay.astro';
 
 interface Props {
 	title: string;
@@ -21,6 +22,7 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
+		<NoiseOverlay />
 		<slot />
 		<script>
 			import Lenis from '@studio-freight/lenis';
