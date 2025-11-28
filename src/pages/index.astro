@@ -1,27 +1,31 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CosmicOrb from '../components/CosmicOrb.astro';
+import Services from '../components/Services.astro';
 ---
 
 <Layout title="Joyful Subversions Cosmic">
 	<CosmicOrb />
 	
 	<!-- Hero Section -->
-	<section id="hero" class="section-container flex-col">
+	<section id="hero" class="section-container flex-col min-h-screen">
 		<h1 class="hero-heading mb-6 text-center">
 			Joyful<br />Subversions
 		</h1>
 		<p class="body-text opacity-80 max-w-2xl text-center">
-			Putting humans at the centre of technological process.
+			Putting humans at the centre <br />of technological process.
 		</p>
 	</section>
 
 	<!-- Manifesto Section -->
 	<section id="manifesto" class="section-container">
 		<h2 class="section-heading text-center">
-			Your guide to the future.
+			Your guide to an uncertain future.
 		</h2>
 	</section>
+
+	<!-- Services Section -->
+	<Services />
 
 	<!-- About Section (Light Mode) -->
 	<section id="about" class="section-container-left text-off-white">

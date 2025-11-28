@@ -114,17 +114,17 @@
 
     /* Standard section container */
     .section-container {
-        @apply min-h-screen flex items-center justify-center p-12 relative z-10;
+        @apply py-24 flex items-center justify-center p-12 relative z-10;
     }
 
     /* Section container - left aligned */
     .section-container-left {
-        @apply min-h-screen flex items-start justify-start p-12 relative z-10;
+        @apply py-24 flex items-start justify-start p-12 relative z-10;
     }
 
     /* Section container - top aligned */
     .section-container-top {
-        @apply min-h-screen flex flex-col justify-center p-12 relative z-10;
+        @apply py-24 flex flex-col justify-center p-12 relative z-10;
     }
 
     /* Content wrapper - constrains max width */

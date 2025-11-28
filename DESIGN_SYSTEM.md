@@ -61,6 +61,24 @@ Larger, emphasized paragraphs
 <p class="body-text-lg">Important information.</p>
 ```
 
+## Spacing
+
+We follow a **4-point spacing system**. All margins, paddings, and gaps should be multiples of 4px (0.25rem).
+
+### Common Values
+- **4px** (`0.25rem`): `p-1`, `m-1`, `gap-1`
+- **8px** (`0.5rem`): `p-2`, `m-2`, `gap-2`
+- **16px** (`1rem`): `p-4`, `m-4`, `gap-4`
+- **24px** (`1.5rem`): `p-6`, `m-6`, `gap-6`
+- **32px** (`2rem`): `p-8`, `m-8`, `gap-8`
+- **48px** (`3rem`): `p-12`, `m-12`, `gap-12`
+- **64px** (`4rem`): `p-16`, `m-16`, `gap-16`
+
+### Guidelines
+- Avoid arbitrary values like `13px` or `21px`.
+- Use consistent spacing for related elements (e.g., all section headings have `mb-8` or `mb-12`).
+- Use `gap` utilities for grid and flex layouts instead of margins on children when possible.
+
 ## Layout Components
 
 #### `.section-container`
