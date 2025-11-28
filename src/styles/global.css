@@ -1,20 +1,158 @@
 @import "tailwindcss";
 
 @theme {
+    /* ============================================
+       COLOR PALETTE
+       ============================================ */
     --color-void-black: #050505;
     --color-off-white: #F0F0F0;
     --color-mint-cream: #D4F5D1;
     --color-electric-blue: #0000AA;
+
+    /* Gradient intermediate colors (for noisy gradient) */
+    --color-deep-purple: #1a0a2e;
+    --color-cosmic-violet: #2d1b4e;
+    --color-nebula-pink: #6a1b58;
+
+    /* ============================================
+       TYPOGRAPHY
+       ============================================ */
     --font-spectral: 'Spectral', serif;
     --font-jetbrains: 'JetBrains Mono', monospace;
+
+    /* Font sizes - consistent scale */
+    --font-size-xs: 0.75rem;
+    /* 12px */
+    --font-size-sm: 0.875rem;
+    /* 14px */
+    --font-size-base: 1rem;
+    /* 16px */
+    --font-size-lg: 1.125rem;
+    /* 18px */
+    --font-size-xl: 1.25rem;
+    /* 20px */
+    --font-size-2xl: 1.5rem;
+    /* 24px */
+    --font-size-3xl: 1.875rem;
+    /* 30px */
+    --font-size-4xl: 2.25rem;
+    /* 36px */
+    --font-size-5xl: 3rem;
+    /* 48px */
+    --font-size-6xl: 3.75rem;
+    /* 60px */
+    --font-size-7xl: 4.5rem;
+    /* 72px */
+    --font-size-8xl: 6rem;
+    /* 96px */
+    --font-size-9xl: 8rem;
+    /* 128px */
+
+    /* ============================================
+       SPACING
+       ============================================ */
+    --spacing-section-y: 3rem;
+    /* Vertical section padding */
+    --spacing-section-x: 3rem;
+    /* Horizontal section padding */
+
+    /* ============================================
+       ANIMATIONS
+       ============================================ */
+    --transition-smooth: all 0.3s ease-in-out;
+    --transition-slow: all 0.5s ease-in-out;
 }
 
 @layer base {
     html {
-        @apply bg-void-black text-off-white;
+        @apply bg-void-black text-off-white scroll-smooth;
     }
 
     body {
         @apply font-jetbrains antialiased;
+    }
+}
+
+@layer components {
+    /* ============================================
+       TYPOGRAPHY COMPONENTS
+       ============================================ */
+
+    /* Hero heading - Large display text */
+    .hero-heading {
+        @apply font-spectral text-7xl md:text-9xl font-normal tracking-tight;
+    }
+
+    /* Section heading - Major section titles */
+    .section-heading {
+        @apply font-spectral text-5xl md:text-7xl font-bold leading-tight;
+    }
+
+    /* Subsection heading */
+    .subsection-heading {
+        @apply font-spectral text-3xl md:text-5xl font-bold;
+    }
+
+    /* Body text - Standard paragraph text */
+    .body-text {
+        @apply font-jetbrains text-xl md:text-2xl leading-relaxed;
+    }
+
+    /* Body text large - Emphasized paragraphs */
+    .body-text-lg {
+        @apply font-jetbrains text-2xl md:text-3xl leading-relaxed font-medium;
+    }
+
+    /* Small text - Captions, metadata */
+    .text-small {
+        @apply font-jetbrains text-sm md:text-base opacity-80;
+    }
+
+    /* ============================================
+       LAYOUT COMPONENTS
+       ============================================ */
+
+    /* Standard section container */
+    .section-container {
+        @apply min-h-screen flex items-center justify-center p-12 relative z-10;
+    }
+
+    /* Section container - left aligned */
+    .section-container-left {
+        @apply min-h-screen flex items-start justify-start p-12 relative z-10;
+    }
+
+    /* Section container - top aligned */
+    .section-container-top {
+        @apply min-h-screen flex flex-col justify-center p-12 relative z-10;
+    }
+
+    /* Content wrapper - constrains max width */
+    .content-wrapper {
+        @apply max-w-4xl;
+    }
+
+    /* Content wrapper wide */
+    .content-wrapper-wide {
+        @apply max-w-6xl;
+    }
+
+    /* ============================================
+       INTERACTIVE COMPONENTS
+       ============================================ */
+
+    /* Standard link hover */
+    .link-hover {
+        @apply hover:underline transition-all duration-300;
+    }
+
+    /* Card hover effect */
+    .card-hover {
+        @apply hover:bg-white/5 transition-colors duration-500;
+    }
+
+    /* Glass card */
+    .glass-card {
+        @apply border border-white/20 rounded-2xl backdrop-blur-sm;
     }
 }
