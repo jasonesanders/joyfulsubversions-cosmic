@@ -1,0 +1,34 @@
+---
+import { Image } from 'astro:assets';
+
+// Load all images from src/assets/brands
+// To add new logos, simply drop .svg, .png, .jpg, or .webp files into src/assets/brands/
+const brandFiles = import.meta.glob('/src/assets/brands/*.{svg,png,jpg,jpeg,webp}', { eager: true });
+const brands = Object.values(brandFiles).map((file: any) => file.default);
+---
+
+<section class="section-container-left flex-col relative z-10">
+  <div class="content-wrapper-wide w-full">
+    <h2 class="section-heading mb-16">Brands We Work With.</h2>
+    
+    {brands.length > 0 ? (
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 md:gap-16 items-start justify-items-start">
+        {brands.map((brand) => (
+          <div class="w-full flex justify-start transition-all duration-300 hover:scale-105 group">
+            <Image 
+              src={brand} 
+              alt="Brand Logo" 
+              class="max-h-12 w-auto opacity-50 transition-all duration-500 grayscale group-hover:opacity-100"
+              style="filter: grayscale(100%) brightness(0) invert(1);"
+            />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center p-12 border border-white/10 rounded-2xl bg-white/5">
+        <p class="body-text opacity-70">No brands found.</p>
+        <p class="text-small mt-2">Add logo files to <code class="bg-white/10 px-2 py-1 rounded">src/assets/brands/</code></p>
+      </div>
+    )}
+  </div>
+</section>

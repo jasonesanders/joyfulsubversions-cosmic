@@ -155,4 +155,32 @@
     .glass-card {
         @apply border border-white/20 rounded-2xl backdrop-blur-sm;
     }
+
+    /* Text Gradient */
+    .text-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-off-white via-mint-cream to-off-white bg-[length:200%_auto] animate-gradient;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-void-black;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-white/20 rounded-full hover:bg-white/40 transition-colors;
+    }
+}
+
+@theme {
+    --animate-gradient: gradient 8s linear infinite;
+
+    @keyframes gradient {
+        to {
+            background-position: 200% center;
+        }
+    }
 }

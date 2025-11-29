@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import CosmicOrb from '../components/CosmicOrb.astro';
 import Services from '../components/Services.astro';
+import BrandGrid from '../components/BrandGrid.astro';
 ---
 
 <Layout title="Joyful Subversions Cosmic">
@@ -27,6 +28,9 @@ import Services from '../components/Services.astro';
 	<!-- Services Section -->
 	<Services />
 
+    <!-- Brands Section -->
+    <BrandGrid />
+
 	<!-- About Section (Light Mode) -->
 	<section id="about" class="section-container-left text-off-white">
 		<div class="content-wrapper">
@@ -37,27 +41,17 @@ import Services from '../components/Services.astro';
 		</div>
 	</section>
 
-	<!-- Gallery Section -->
-	<section id="gallery" class="section-container-top overflow-hidden">
-		<h2 class="section-heading mb-12 opacity-100">Redacted Work.</h2>
-		<div class="flex gap-8 overflow-x-auto pb-8">
-			<!-- Placeholder Cards -->
-			{[1, 2, 3].map((i) => (
-				<div class="glass-card card-hover flex-shrink-0 w-[400px] h-[500px] p-8 flex items-end">
-					<span class="subsection-heading">Project 0{i}</span>
-				</div>
-			))}
-		</div>
-	</section>
-
 	<!-- Footer -->
-	<section id="footer" class="section-container flex-col p-8">
-		<h3 class="section-heading text-center leading-none">
+	<section id="footer" class="section-container flex-col p-8 min-h-[50vh]">
+		<h3 class="section-heading text-center leading-none mb-8">
 			Thanks for stopping by.
 		</h3>
 		<div class="mt-12 flex gap-8">
-			<a href="mailto:sup@joyfulsubversions.com" class="body-text link-hover">sup@joyfulsubversions.com</a>
+			<a href="mailto:sup@joyfulsubversions.com" class="body-text link-hover text-gradient">sup@joyfulsubversions.com</a>
 		</div>
+        <div class="mt-auto pt-24 text-small text-white/30">
+            © {new Date().getFullYear()} Joyful Subversions. All rights reserved.
+        </div>
 	</section>
 
 	<script>
@@ -89,16 +83,5 @@ import Services from '../components/Services.astro';
 			duration: 0.5,
 			ease: "power1.inOut"
 		}, 0.8); // Overlap slightly or start after
-
-		// About -> Gallery: Stay hidden (no op needed, or hold)
-		
-		// Gallery -> Footer: Reappear - REMOVED based on feedback
-		// tl.to('.orb-scaler', {
-		// 	opacity: 1,
-		// 	scale: 1,
-		// 	filter: 'blur(0px)',
-		// 	duration: 0.5,
-		// 	ease: "power1.inOut"
-		// }, 2.5);
 	</script>
 </Layout>
