@@ -1,0 +1,45 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .orb-group {
+      transform-origin: center;
+      animation: spin 20s linear infinite;
+    }
+    
+    /* Sketchy lines rotate slightly faster/differently to create depth */
+    .sketch-layer {
+      transform-origin: center;
+      animation: wobble 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes wobble {
+      from { transform: rotate(5deg) scale(1.02); }
+      to { transform: rotate(-5deg) scale(0.98); }
+    }
+  </style>
+
+  <rect width="64" height="64" rx="16" fill="#0f0f12"/>
+
+  <g class="orb-group">
+    
+    <path fill="none" stroke="rgba(255, 255, 255, 0.4)" stroke-width="1.5" class="sketch-layer" style="animation-delay: -2s;">
+      <animate attributeName="d" dur="8s" repeatCount="indefinite" values="
+        M32 8 C46 8 56 18 56 32 C56 46 46 56 32 56 C18 56 8 46 8 32 C8 18 18 8 32 8 Z;
+        M32 4 C50 10 58 18 56 32 C54 48 46 60 32 58 C16 56 6 46 6 32 C6 18 14 4 32 4 Z;
+        M32 8 C46 8 56 18 56 32 C56 46 46 56 32 56 C18 56 8 46 8 32 C8 18 18 8 32 8 Z"
+      />
+    </path>
+
+    <path fill="none" stroke="rgba(255, 255, 255, 0.9)" stroke-width="2.5">
+      <animate attributeName="d" dur="8s" repeatCount="indefinite" values="
+        M32 10 C44 10 54 20 54 32 C54 44 44 54 32 54 C20 54 10 44 10 32 C10 20 20 10 32 10 Z;
+        M32 6 C48 10 58 18 56 32 C54 48 44 58 32 56 C18 54 8 46 8 32 C8 18 16 6 32 6 Z;
+        M32 10 C44 10 54 20 54 32 C54 44 44 54 32 54 C20 54 10 44 10 32 C10 20 20 10 32 10 Z"
+      />
+    </path>
+
+  </g>
+</svg>
