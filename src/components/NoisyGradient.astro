@@ -1,4 +1,5 @@
 ---
+
 ---
 
 <div class="noisy-gradient-container">
@@ -7,12 +8,21 @@
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
   </div>
-  <svg width="100%" height="100%" xmlns='http://www.w3.org/2000/svg'>
-    <filter id='grainyGradientNoise'>
-      <feTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch' />
-      <feColorMatrix type="saturate" values="0" /> <!-- Grayscale -->
+  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+    <filter id="grainyGradientNoise">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.6"
+        numOctaves="3"
+        stitchTiles="stitch"></feTurbulence>
+      <feColorMatrix type="saturate" values="0"></feColorMatrix>
+      <!-- Grayscale -->
     </filter>
-    <rect width='100%' height='100%' filter='url(#grainyGradientNoise)' opacity="1" />
+    <rect
+      width="100%"
+      height="100%"
+      filter="url(#grainyGradientNoise)"
+      opacity="1"></rect>
   </svg>
 </div>
 
@@ -34,7 +44,7 @@
     position: absolute;
     inset: 0;
     /* Reduced blur for more defined shapes as requested */
-    filter: blur(40px) contrast(120%); 
+    filter: blur(40px) contrast(120%);
   }
 
   .blob {
@@ -91,20 +101,23 @@
 </style>
 
 <script>
-  import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
 
   gsap.registerPlugin(ScrollTrigger);
 
   // Palette: #333333 -> #643173 -> #7d5ba6 -> #86a59c -> #89ce94
+  // Palette: Carbon -> Rosy Copper/Cerulean/Vanilla -> Shuffle
   const palette = [
-    { base: '#333333', blob1: '#643173', blob2: '#7d5ba6', blob3: '#86a59c' }, // Start
-    { base: '#3a1c42', blob1: '#7d5ba6', blob2: '#86a59c', blob3: '#89ce94' }, // Middle
-    { base: '#4d7353', blob1: '#89ce94', blob2: '#643173', blob3: '#7d5ba6' }  // End
+    { base: "#262624", blob1: "#c05746", blob2: "#0081a7", blob3: "#f3dfa2" }, // Start
+    { base: "#262624", blob1: "#0081a7", blob2: "#f3dfa2", blob3: "#c05746" }, // Middle
+    { base: "#262624", blob1: "#f3dfa2", blob2: "#c05746", blob3: "#0081a7" }, // End
   ];
 
-  const container = document.querySelector('.noisy-gradient-container') as HTMLElement;
-  const blobs = document.querySelectorAll('.blob');
+  const container = document.querySelector(
+    ".noisy-gradient-container",
+  ) as HTMLElement;
+  const blobs = document.querySelectorAll(".blob");
 
   if (container && blobs.length) {
     const tl = gsap.timeline({
@@ -113,41 +126,57 @@
         start: "top top",
         end: "bottom bottom",
         scrub: 0.5,
-      }
+      },
     });
 
     // Initial State: Solid Top (Blobs hidden or very subtle)
-    gsap.set(container, { '--bg-base': palette[0].base });
-    gsap.set(blobs, { opacity: 0, scale: 0.8 }); 
+    gsap.set(container, { "--bg-base": palette[0].base });
+    gsap.set(blobs, { opacity: 0, scale: 0.8 });
 
     // Animation Sequence
-    
+
     // 1. Fade in blobs as we scroll down from Hero
-    tl.to(blobs, { 
-        opacity: 0.8, 
-        scale: 1, 
-        duration: 0.2, 
-        stagger: 0.1 
-    }, 0);
+    tl.to(
+      blobs,
+      {
+        opacity: 0.8,
+        scale: 1,
+        duration: 0.2,
+        stagger: 0.1,
+      },
+      0,
+    );
 
     // 2. Move blobs around to create "transition"
-    tl.to('.blob-1', { top: '30%', left: '10%', rotation: 45, duration: 1 }, 0);
-    tl.to('.blob-2', { top: '60%', right: '10%', rotation: -45, duration: 1 }, 0);
-    tl.to('.blob-3', { bottom: '10%', left: '30%', rotation: 20, duration: 1 }, 0);
+    tl.to(".blob-1", { top: "30%", left: "10%", rotation: 45, duration: 1 }, 0);
+    tl.to(
+      ".blob-2",
+      { top: "60%", right: "10%", rotation: -45, duration: 1 },
+      0,
+    );
+    tl.to(
+      ".blob-3",
+      { bottom: "10%", left: "30%", rotation: 20, duration: 1 },
+      0,
+    );
 
     // 3. Color Cycle
     // We'll interpolate the CSS variables for colors
     palette.forEach((colors, index) => {
-        if (index === 0) return;
-        
-        tl.to(container, {
-            '--bg-base': colors.base,
-            '--blob-1-color': colors.blob1,
-            '--blob-2-color': colors.blob2,
-            '--blob-3-color': colors.blob3,
-            ease: "none",
-            duration: 1 / (palette.length - 1)
-        }, (index - 1) / (palette.length - 1));
+      if (index === 0) return;
+
+      tl.to(
+        container,
+        {
+          "--bg-base": colors.base,
+          "--blob-1-color": colors.blob1,
+          "--blob-2-color": colors.blob2,
+          "--blob-3-color": colors.blob3,
+          ease: "none",
+          duration: 1 / (palette.length - 1),
+        },
+        (index - 1) / (palette.length - 1),
+      );
     });
   }
 </script>

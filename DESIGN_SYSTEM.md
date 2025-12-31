@@ -11,10 +11,14 @@ This document explains the design system for Joyful Subversions. All styles are 
 ## Color Palette
 
 ```css
---color-void-black: #050505      /* Background */
---color-off-white: #F0F0F0       /* Primary text */
---color-mint-cream: #D4F5D1      /* Accent */
---color-electric-blue: #0000AA   /* Highlight */
+--color-void-black: #050505         /* Background */
+--color-carbon: #262624             /* Gradient Base */
+--color-off-white: #fffffc          /* Primary text (Porcelain) */
+--color-rosy-copper: #c05746        /* Gradient Blob */
+--color-cerulean: #0081a7           /* Gradient Blob */
+--color-vanilla-custard: #f3dfa2    /* Gradient Blob */
+--color-mint-cream: #D4F5D1         /* Accent (Legacy) */
+--color-electric-blue: #0000AA      /* Highlight (Legacy) */
 ```
 
 **Usage in HTML:**

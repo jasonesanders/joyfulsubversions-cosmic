@@ -5,9 +5,16 @@
        COLOR PALETTE
        ============================================ */
     --color-void-black: #050505;
-    --color-off-white: #F0F0F0;
+    --color-off-white: #fffffc;
+    /* Porcelain */
     --color-mint-cream: #D4F5D1;
     --color-electric-blue: #0000AA;
+
+    /* New Cosmic Palette */
+    --color-rosy-copper: #c05746;
+    --color-cerulean: #0081a7;
+    --color-vanilla-custard: #f3dfa2;
+    --color-carbon: #262624;
 
     /* Gradient intermediate colors (for noisy gradient) */
     --color-deep-purple: #1a0a2e;
